@@ -98,7 +98,7 @@ pub struct ConcatenateExpression {
 /// https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/DimensionHeader
 #[derive(Default, Debug, Serialize, Deserialize)]
 pub struct DimensionHeader {
-    name: Option<String>,
+    pub name: Option<String>,
 }
 
 
@@ -106,15 +106,15 @@ pub struct DimensionHeader {
 #[derive(Default, Debug, Serialize, Deserialize)]
 pub struct DimensionMetadata {
     #[serde(rename = "apiName")]
-    api_name: Option<String>,
+    pub api_name: Option<String>,
     #[serde(rename = "uiName")]
-    ui_name: Option<String>,
-    description: Option<String>,
+    pub ui_name: Option<String>,
+    pub description: Option<String>,
     #[serde(rename = "deprecatedApiNames")]
-    deprecated_api_names: Option<Vec<String>>,
+    pub deprecated_api_names: Option<Vec<String>>,
     #[serde(rename = "customDefinition")]
-    custom_definition: Option<bool>,
-    category: Option<String>,
+    pub custom_definition: Option<bool>,
+    pub category: Option<String>,
 }
 
 /// https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/DimensionValue
