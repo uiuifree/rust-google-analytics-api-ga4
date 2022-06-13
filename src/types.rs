@@ -27,10 +27,12 @@ pub struct CohortsRange {
     #[serde(rename = "endOffset")]
     end_offset: Option<i32>,
 }
+
 #[derive(Default, Debug, Serialize, Deserialize)]
 pub struct CohortReportSettings {
     accumulate: Option<bool>,
 }
+
 /// https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/DateRange
 #[derive(Default, Debug, Serialize, Deserialize)]
 pub struct DateRange {
@@ -233,6 +235,7 @@ pub struct Metric {
     pub expression: Option<String>,
     pub invisible: Option<bool>,
 }
+
 impl Metric {
     pub fn new(name: &str) -> Metric {
         Metric {
@@ -241,6 +244,7 @@ impl Metric {
         }
     }
 }
+
 /// https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/MetricAggregation
 #[derive(Debug, Serialize, Deserialize)]
 pub enum MetricAggregation {
@@ -259,29 +263,29 @@ pub enum MetricAggregation {
 /// https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/MetricHeader
 #[derive(Default, Debug, Serialize, Deserialize)]
 pub struct MetricHeader {
-    name: Option<String>,
+    pub name: Option<String>,
     #[serde(rename = "type")]
-    metric_type: Option<String>,
+    pub metric_type: Option<String>,
 }
 
 /// https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/MetricHeader
 #[derive(Default, Debug, Serialize, Deserialize)]
 pub struct MetricMetadata {
     #[serde(rename = "apiName")]
-    api_name: String,
+    pub api_name: String,
     #[serde(rename = "uiName")]
-    ui_name: String,
-    description: String,
+    pub ui_name: String,
+    pub description: String,
     #[serde(rename = "deprecatedApiNames")]
-    deprecated_api_names: Vec<String>,
+    pub deprecated_api_names: Vec<String>,
     #[serde(rename = "type")]
-    metric_type: String,
-    expression: String,
+    pub metric_type: String,
+    pub expression: String,
     #[serde(rename = "customDefinition")]
-    custom_definition: bool,
+    pub custom_definition: bool,
     #[serde(rename = "blockedReasons")]
-    blocked_reasons: Vec<String>,
-    category: String,
+    pub blocked_reasons: Vec<String>,
+    pub category: String,
 }
 
 /// https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/MetricType
@@ -323,15 +327,15 @@ pub struct OrderBy {}
 #[derive(Default, Debug, Serialize, Deserialize)]
 pub struct MetricOrderBy {
     #[serde(rename = "metricName")]
-    metric_name: Option<String>,
+    pub metric_name: Option<String>,
 }
 
 #[derive(Default, Debug, Serialize, Deserialize)]
 pub struct DimensionOrderBy {
     #[serde(rename = "dimensionName")]
-    dimension_name: Option<String>,
+    pub dimension_name: Option<String>,
     #[serde(rename = "orderType")]
-    order_type: Option<OrderType>,
+    pub order_type: Option<OrderType>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -349,17 +353,17 @@ pub enum OrderType {
 #[derive(Default, Debug, Serialize, Deserialize)]
 pub struct PivotOrderBy {
     #[serde(rename = "metricName")]
-    metric_name: Option<String>,
+    pub metric_name: Option<String>,
     #[serde(rename = "pivotSelections")]
-    pivot_selections: Option<Vec<PivotSelection>>,
+    pub pivot_selections: Option<Vec<PivotSelection>>,
 }
 
 #[derive(Default, Debug, Serialize, Deserialize)]
 pub struct PivotSelection {
     #[serde(rename = "dimensionName")]
-    dimension_name: Option<String>,
+    pub dimension_name: Option<String>,
     #[serde(rename = "dimensionValue")]
-    dimension_value: Option<String>,
+    pub dimension_value: Option<String>,
 }
 
 
@@ -367,67 +371,67 @@ pub struct PivotSelection {
 #[derive(Default, Debug, Serialize, Deserialize)]
 pub struct Pivot {
     #[serde(rename = "fieldNames")]
-    field_names: Option<Vec<String>>,
+    pub field_names: Option<Vec<String>>,
     #[serde(rename = "orderBys")]
-    order_bys: Option<Vec<OrderBy>>,
+    pub order_bys: Option<Vec<OrderBy>>,
     #[serde(rename = "offset")]
-    offset: Option<String>,
+    pub offset: Option<String>,
     #[serde(rename = "limit")]
-    limit: Option<String>,
+    pub limit: Option<String>,
     #[serde(rename = "metricAggregations")]
-    metric_aggregations: Option<Vec<MetricAggregation>>,
+    pub metric_aggregations: Option<Vec<MetricAggregation>>,
 }
 
 /// https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/PropertyQuota
 #[derive(Default, Debug, Serialize, Deserialize)]
 pub struct PropertyQuota {
     #[serde(rename = "tokensPerDay")]
-    tokens_per_day: Option<QuotaStatus>,
+    pub tokens_per_day: Option<QuotaStatus>,
     #[serde(rename = "tokensPerHour")]
-    tokens_per_hour: Option<QuotaStatus>,
+    pub tokens_per_hour: Option<QuotaStatus>,
     #[serde(rename = "concurrentRequests")]
-    concurrent_requests: Option<QuotaStatus>,
+    pub concurrent_requests: Option<QuotaStatus>,
     #[serde(rename = "serverErrorsPerProjectPerHour")]
-    server_errors_per_project_per_hour: Option<QuotaStatus>,
+    pub server_errors_per_project_per_hour: Option<QuotaStatus>,
     #[serde(rename = "potentiallyThresholdedRequestsPerHour")]
-    potentially_thresholded_requests_per_hour: Option<QuotaStatus>,
+    pub potentially_thresholded_requests_per_hour: Option<QuotaStatus>,
 }
 
 #[derive(Default, Debug, Serialize, Deserialize)]
 pub struct QuotaStatus {
-    consumed: i32,
-    remaining: i32,
+    pub consumed: i32,
+    pub remaining: i32,
 }
 
 /// https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/ResponseMetaData
 #[derive(Default, Debug, Serialize, Deserialize)]
 pub struct ResponseMetaData {
     #[serde(rename = "dataLossFromOtherRow")]
-    data_loss_from_other_row: Option<bool>,
+    pub data_loss_from_other_row: Option<bool>,
     #[serde(rename = "schemaRestrictionResponse")]
-    schema_restriction_response: Option<SchemaRestrictionResponse>,
+    pub schema_restriction_response: Option<SchemaRestrictionResponse>,
     #[serde(rename = "currencyCode")]
-    currency_code: Option<String>,
+    pub currency_code: Option<String>,
     #[serde(rename = "timeZone")]
-    time_zone: Option<String>,
+    pub time_zone: Option<String>,
     #[serde(rename = "emptyReason")]
-    empty_reason: Option<String>,
+    pub empty_reason: Option<String>,
     #[serde(rename = "subjectToThresholding")]
-    subject_to_thresholding: Option<bool>,
+    pub subject_to_thresholding: Option<bool>,
 }
 
 #[derive(Default, Debug, Serialize, Deserialize)]
 pub struct SchemaRestrictionResponse {
     #[serde(rename = "activeMetricRestrictions")]
-    active_metric_restrictions: Option<Vec<ActiveMetricRestriction>>,
+    pub active_metric_restrictions: Option<Vec<ActiveMetricRestriction>>,
 }
 
 #[derive(Default, Debug, Serialize, Deserialize)]
 pub struct ActiveMetricRestriction {
     #[serde(rename = "restrictedMetricTypes")]
-    restricted_metric_types: Option<Vec<RestrictedMetricType>>,
+    pub restricted_metric_types: Option<Vec<RestrictedMetricType>>,
     #[serde(rename = "metricName")]
-    metric_name: Option<bool>,
+    pub metric_name: Option<bool>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -458,31 +462,31 @@ pub struct MetricValue {
 #[derive(Default, Debug, Serialize, Deserialize)]
 pub struct RunPivotReportResponse {
     #[serde(rename = "pivotHeaders")]
-    pivot_headers: Option<Vec<PivotHeader>>,
+    pub pivot_headers: Option<Vec<PivotHeader>>,
     #[serde(rename = "dimensionHeaders")]
-    dimension_headers: Option<Vec<DimensionHeader>>,
+    pub dimension_headers: Option<Vec<DimensionHeader>>,
     #[serde(rename = "metricHeaders")]
-    metric_headers: Option<Vec<MetricHeader>>,
-    rows: Option<Vec<Row>>,
-    aggregates: Option<Vec<Row>>,
-    metadata: Option<ResponseMetaData>,
+    pub metric_headers: Option<Vec<MetricHeader>>,
+    pub rows: Option<Vec<Row>>,
+    pub aggregates: Option<Vec<Row>>,
+    pub metadata: Option<ResponseMetaData>,
     #[serde(rename = "propertyQuota")]
-    property_quota: Option<PropertyQuota>,
-    kind: Option<String>,
+    pub property_quota: Option<PropertyQuota>,
+    pub kind: Option<String>,
 }
 
 #[derive(Default, Debug, Serialize, Deserialize)]
 pub struct PivotHeader {
     #[serde(rename = "pivotDimensionHeaders")]
-    pivot_dimension_headers: Option<Vec<PivotDimensionHeader>>,
+    pub pivot_dimension_headers: Option<Vec<PivotDimensionHeader>>,
     #[serde(rename = "rowCount")]
-    row_count: Option<i32>,
+    pub row_count: Option<i32>,
 }
 
 #[derive(Default, Debug, Serialize, Deserialize)]
 pub struct PivotDimensionHeader {
     #[serde(rename = "dimensionValues")]
-    dimension_values: Option<Vec<DimensionValue>>,
+    pub dimension_values: Option<Vec<DimensionValue>>,
 }
 
 /// https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/RunReportResponse
