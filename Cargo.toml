@@ -8,7 +8,7 @@ description = "ElasticSearch Response Parser"
 license = "MIT"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-keywords = ["ga4","ga","google analytics"]
+keywords = ["ga4","ga","google_analytics"]
 [dependencies]
 reqwest ={version="*",features=["json"]}
 
