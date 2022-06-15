@@ -16,7 +16,6 @@ async fn test_token() -> AccessToken {
     token.unwrap()
 }
 
-//Zz
 
 #[tokio::test]
 async fn test_run_realtime_report() {
