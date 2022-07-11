@@ -39,7 +39,7 @@ async fn test_run_realtime_report() {
     }
 
 
-    let a = RunRealtimeReportRequest {
+    let request = RunRealtimeReportRequest {
         dimensions,
         metrics,
         limit: Some("2".to_string()),
@@ -47,7 +47,7 @@ async fn test_run_realtime_report() {
     };
 
 
-    let run_report = AnalyticsDataApi::run_realtime_report(token.as_str(), property_id, a).await;
+    let run_report = AnalyticsDataApi::run_realtime_report(token.as_str(), property_id, request).await;
     assert!(run_report.is_ok(), "{}", run_report.err().unwrap().to_string());
     let run_report = run_report.unwrap();
     let metric_headers = run_report.metric_headers.unwrap_or_default();
@@ -65,7 +65,6 @@ async fn test_run_realtime_report() {
 async fn test_run_report() {
     let token = test_token().await;
     let property_id = "252735638";
-
     let metric_values = vec![
         "sessions",
         "screenPageViews",
