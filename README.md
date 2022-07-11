@@ -28,7 +28,7 @@ async fn token() -> AccessToken {
 
 ## runReport
 ``` rust
-let token = test_token().await;
+let token = token().await;
     let property_id = "{property_id}";
     let metric_values = vec![
         "sessions",
