@@ -68,6 +68,13 @@ impl Dimension {
             ..Dimension::default()
         }
     }
+    pub fn from_string_vec(vals:Vec<&str>) -> Vec<Self>{
+        let mut out = vec![];
+        for val in vals{
+            out.push(Self::new(val));
+        }
+        out
+    }
 }
 
 #[derive(Default, Debug, Serialize, Deserialize, Clone)]
@@ -242,6 +249,13 @@ impl Metric {
             name: Some(name.to_string()),
             ..Metric::default()
         }
+    }
+    pub fn from_string_vec(vals:Vec<&str>) -> Vec<Self>{
+        let mut out = vec![];
+        for val in vals{
+            out.push(Self::new(val));
+        }
+        out
     }
 }
 

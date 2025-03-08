@@ -25,9 +25,19 @@ pub struct RunRealtimeReportRequest {
 
 #[derive(Default, Debug, Serialize, Deserialize)]
 pub struct MinuteRange {
-    name: Option<String>,
+    pub name: Option<String>,
     #[serde(rename = "startMinutesAgo")]
-    start_minutes_ago: Option<String>,
+    pub start_minutes_ago: Option<String>,
     #[serde(rename = "endMinutesAgo")]
-    end_minutes_ago: Option<String>,
+    pub end_minutes_ago: Option<String>,
+}
+impl MinuteRange{
+    pub fn single_minute(time :i16)->MinuteRange{
+        MinuteRange{
+            start_minutes_ago:Some(time.to_string()),
+            end_minutes_ago:Some(time.to_string()),
+            name:Some(format!("Minute {}",time).to_string()),
+            ..Self::default()
+        }
+    }
 }
