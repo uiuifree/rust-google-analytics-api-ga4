@@ -521,3 +521,68 @@ pub struct RunReportResponse {
     pub property_quota: Option<PropertyQuota>,
     pub kind: Option<String>,
 }
+
+// https://developers.google.com/analytics/devguides/config/admin/v1/rest/v1beta/properties#PropertyType
+#[derive(Debug, Serialize, Deserialize,Clone)]
+pub enum PropertyType {
+    #[serde(rename = "PROPERTY_TYPE_UNSPECIFIED")]
+    MatchTypeUnspecified,
+    #[serde(rename = "PROPERTY_TYPE_ORDINARY")]
+    Ordinary,
+    #[serde(rename = "PROPERTY_TYPE_SUBPROPERTY")]
+    SubProperty,
+    #[serde(rename = "PROPERTY_TYPE_ROLLUP")]
+    Rollup,
+}
+
+// https://developers.google.com/analytics/devguides/config/admin/v1/rest/v1beta/accountSummaries/list#PropertySummary
+#[derive(Default, Debug, Serialize, Deserialize, Clone)]
+pub struct PropertySummary{
+    pub property: Option<String>,
+    #[serde(rename = "displayName")]
+    pub display_name: Option<String>,
+    #[serde(rename = "propertyType")]
+    pub property_type: Option<PropertyType>,
+    pub parent: Option<String>,
+}
+
+// https://developers.google.com/analytics/devguides/config/admin/v1/rest/v1beta/accountSummaries/list#AccountSummary
+#[derive(Default, Debug, Serialize, Deserialize, Clone)]
+pub struct AccountSummary{
+    pub name: Option<String>,
+    pub account: Option<String>,
+    #[serde(rename = "displayName")]
+    pub display_name: Option<String>,
+    #[serde(rename = "propertySummaries")]
+    pub property_summaries: Option<Vec<PropertySummary>>,
+}
+/// https://developers.google.com/analytics/devguides/config/admin/v1/rest/v1beta/accountSummaries/list
+#[derive(Default, Debug, Serialize, Deserialize, Clone)]
+pub struct AccountSummariesList{
+    #[serde(rename = "accountSummaries")]
+    pub account_summaries: Option<Vec<AccountSummary>>,
+    #[serde(rename = "nextPageToken")]
+    pub next_page_token: Option<String>,
+}
+// {
+//     "accountSummaries": [
+//       {
+//         "name": "accountSummaries/109087561",
+//         "account": "accounts/109087561",
+//         "displayName": "framework Miner"
+//       },
+//       {
+//         "name": "accountSummaries/297489450",
+//         "account": "accounts/297489450",
+//         "displayName": "Zion Outdoors",
+//         "propertySummaries": [
+//           {
+//             "property": "properties/421472990",
+//             "displayName": "Zion Outdoors",
+//             "propertyType": "PROPERTY_TYPE_ORDINARY",
+//             "parent": "accounts/297489450"
+//           }
+//         ]
+//       }
+//     ]
+//   }

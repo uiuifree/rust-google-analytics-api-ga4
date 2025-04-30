@@ -10,14 +10,15 @@ mod batch_run_reports;
 mod run_pivot_reports;
 
 use serde_json::json;
-use crate::{GoogleApiError};
+use types::AccountSummariesList;
+pub use crate::GoogleApiError;
 pub use run_report::*;
 pub use error::*;
 pub use check_compatibility::*;
 pub use run_realtime_report::*;
 pub use get_metadata::*;
 use crate::batch_run_pivot_reports::{BatchRunPivotReportRequest, BatchRunPivotReportRequestBody, BatchRunPivotReportResponse};
-use crate::batch_run_reports::{BatchRunReportRequestBody};
+use crate::batch_run_reports::BatchRunReportRequestBody;
 use crate::http::HttpClient;
 use crate::types::RunReportResponse;
 
@@ -25,6 +26,13 @@ use crate::types::RunReportResponse;
 pub struct AnalyticsDataApi {}
 
 impl AnalyticsDataApi {
+    /// https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/properties/batchRunReports
+    pub async fn run_admin_account_summaries(token: &str) -> Result<AccountSummariesList, GoogleApiError> {
+        Ok(HttpClient::get_no_param(
+            token,
+            r#"https://analyticsadmin.googleapis.com/v1beta/accountSummaries"#,
+        ).await?)
+    }
     /// https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/properties/batchRunPivotReports
     pub async fn batch_run_pivot_reports(token: &str, property: &str, requests: Vec<BatchRunPivotReportRequest>) -> Result<BatchRunPivotReportResponse, GoogleApiError> {
         Ok(HttpClient::post(
