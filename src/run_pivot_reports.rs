@@ -1,24 +1,25 @@
 use crate::types::{CohortSpec, DateRange, Dimension, FilterExpression, Metric, Pivot};
 use serde::{Deserialize, Serialize};
 
-#[derive(Default, Debug, Serialize, Deserialize)]
+/// <https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/properties/runPivotReport>
+#[derive(Default, Debug, Serialize, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
 pub struct RunPivotReportRequest {
-    dimensions: Option<Dimension>,
-    metrics: Option<Metric>,
-    #[serde(rename = "dateRanges")]
-    date_ranges: Option<DateRange>,
-    pivots: Option<Pivot>,
-    #[serde(rename = "dimensionFilter")]
-    dimension_filter: Option<FilterExpression>,
-    #[serde(rename = "metricFilter")]
-    metric_filter: Option<FilterExpression>,
-    #[serde(rename = "currencyCode")]
-    currency_code: Option<String>,
-    #[serde(rename = "cohortSpec")]
-    cohort_spec: Option<CohortSpec>,
-    #[serde(rename = "keepEmptyRows")]
-    keep_empty_rows: Option<bool>,
-    #[serde(rename = "returnPropertyQuota")]
-    return_property_quota: Option<bool>,
+    pub property: String,
+    pub dimensions: Vec<Dimension>,
+    pub metrics: Vec<Metric>,
+    pub date_ranges: Vec<DateRange>,
+    pub pivots: Vec<Pivot>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub dimension_filter: Option<FilterExpression>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub metric_filter: Option<FilterExpression>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub currency_code: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub cohort_spec: Option<CohortSpec>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub keep_empty_rows: Option<bool>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub return_property_quota: Option<bool>,
 }
-

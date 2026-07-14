@@ -1,36 +1,18 @@
-use crate::types::{CohortSpec, DateRange, Dimension, FilterExpression, Metric, Pivot, RunPivotReportResponse};
+use crate::run_pivot_reports::RunPivotReportRequest;
+use crate::types::RunPivotReportResponse;
 use serde::{Deserialize, Serialize};
 
 #[derive(Default, Debug, Serialize, Deserialize)]
-pub(crate) struct BatchRunPivotReportRequestBody {
-    pub requests: Vec<BatchRunPivotReportRequest>,
+pub(crate) struct BatchRunPivotReportsRequestBody {
+    pub requests: Vec<RunPivotReportRequest>,
 }
 
-#[derive(Default, Debug, Serialize, Deserialize)]
-pub struct BatchRunPivotReportRequest {
-    property: Option<String>,
-    dimensions: Option<Dimension>,
-    metrics: Option<Metric>,
-    #[serde(rename = "dateRanges")]
-    date_ranges: Option<DateRange>,
-    pivots: Option<Pivot>,
-    #[serde(rename = "dimensionFilter")]
-    dimension_filter: Option<FilterExpression>,
-    #[serde(rename = "metricFilter")]
-    metric_filter: Option<FilterExpression>,
-    #[serde(rename = "currencyCode")]
-    currency_code: Option<String>,
-    #[serde(rename = "cohortSpec")]
-    cohort_spec: Option<CohortSpec>,
-    #[serde(rename = "keepEmptyRows")]
-    keep_empty_rows: Option<bool>,
-    #[serde(rename = "returnPropertyQuota")]
-    return_property_quota: Option<bool>,
-}
-
-#[derive(Default, Debug, Serialize, Deserialize)]
-pub struct BatchRunPivotReportResponse {
-    #[serde(rename = "pivotReports")]
-    pivot_reports: Option<Vec<RunPivotReportResponse>>,
-    kind: Option<String>,
+/// <https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/properties/batchRunPivotReports>
+#[derive(Default, Debug, Serialize, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct BatchRunPivotReportsResponse {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub pivot_reports: Option<Vec<RunPivotReportResponse>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub kind: Option<String>,
 }

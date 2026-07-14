@@ -1,77 +1,55 @@
-use std::fmt::{Debug};
-use serde_json::{json};
 use crate::error::GoogleApiError;
+use std::sync::OnceLock;
 
+static CLIENT: OnceLock<reqwest::Client> = OnceLock::new();
 
-#[derive(Default, Debug)]
-pub struct HttpClient {
+fn client() -> &'static reqwest::Client {
+    CLIENT.get_or_init(reqwest::Client::new)
 }
 
-
+pub(crate) struct HttpClient;
 
 impl HttpClient {
-    pub async fn get<T, U>(token: &str, url: &str, params: U) -> Result<T, GoogleApiError>
-        where
-            T: for<'de> serde::Deserialize<'de>,
-            U: serde::Serialize + std::fmt::Debug
+    pub async fn get<T>(token: &str, url: &str) -> Result<T, GoogleApiError>
+    where
+        T: for<'de> serde::Deserialize<'de>,
     {
-        let response = reqwest::Client::new()
-            .get(format!("{}", url))
+        let response = client()
+            .get(url)
             .header("Authorization", format!("Bearer {}", token))
-            .json(&json!(params))
             .send()
-            .await;
-        if response.is_err() {
-            return Err(GoogleApiError::Connection(response.err().unwrap().to_string()));
-        }
-        let response = response.unwrap();
-        let status = response.status();
-        let value = response.text().await;
-        if status != 200{
-            return Err(GoogleApiError::JsonParse(value.unwrap().to_string()));
-        }
-        if value.is_err() {
-            return Err(GoogleApiError::JsonParse(value.unwrap().to_string()));
-        }
-        let value = value.unwrap();
-        let parse = serde_json::from_str(value.as_str());
-        if parse.is_err() {
-            return Err(GoogleApiError::JsonParse(value));
-        }
-
-        Ok(parse.unwrap())
+            .await
+            .map_err(|e| GoogleApiError::Connection(e.to_string()))?;
+        Self::parse_response(response).await
     }
+
     pub async fn post<T, U>(token: &str, url: &str, params: U) -> Result<T, GoogleApiError>
-        where
-            T: for<'de> serde::Deserialize<'de>,
-            U: serde::Serialize + std::fmt::Debug
+    where
+        T: for<'de> serde::Deserialize<'de>,
+        U: serde::Serialize,
     {
-        let response = reqwest::Client::new()
-            .post(format!("{}", url))
+        let response = client()
+            .post(url)
             .header("Authorization", format!("Bearer {}", token))
-            .json(&json!(params))
+            .json(&params)
             .send()
-            .await;
+            .await
+            .map_err(|e| GoogleApiError::Connection(e.to_string()))?;
+        Self::parse_response(response).await
+    }
 
-
-        if response.is_err() {
-            return Err(GoogleApiError::Connection(response.err().unwrap().to_string()));
-        }
-        let response = response.unwrap();
+    async fn parse_response<T>(response: reqwest::Response) -> Result<T, GoogleApiError>
+    where
+        T: for<'de> serde::Deserialize<'de>,
+    {
         let status = response.status();
-        let value = response.text().await;
-        if status != 200{
-            return Err(GoogleApiError::JsonParse(value.unwrap().to_string()));
+        let body = response
+            .text()
+            .await
+            .map_err(|e| GoogleApiError::Connection(e.to_string()))?;
+        if !status.is_success() {
+            return Err(GoogleApiError::Response(status.as_u16(), body));
         }
-        if value.is_err() {
-            return Err(GoogleApiError::JsonParse(value.unwrap().to_string()));
-        }
-        let value = value.unwrap();
-        let parse = serde_json::from_str(value.as_str());
-        if parse.is_err() {
-            return Err(GoogleApiError::JsonParse(value));
-        }
-
-        Ok(parse.unwrap())
+        serde_json::from_str(&body).map_err(|_| GoogleApiError::JsonParse(body))
     }
 }

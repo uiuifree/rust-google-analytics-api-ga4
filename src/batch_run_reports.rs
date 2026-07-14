@@ -1,14 +1,18 @@
-use serde::{Deserialize, Serialize};
+use crate::types::RunReportResponse;
 use crate::RunReportRequest;
+use serde::{Deserialize, Serialize};
 
 #[derive(Default, Debug, Serialize, Deserialize)]
-pub(crate) struct BatchRunReportRequestBody {
+pub(crate) struct BatchRunReportsRequestBody {
     pub requests: Vec<RunReportRequest>,
 }
 
-#[derive(Default, Debug, Serialize, Deserialize)]
-pub struct RunReportResponse {
-    #[serde(rename = "pivotReports")]
-    reports: Option<Vec<RunReportResponse>>,
-    kind: Option<String>,
+/// <https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/properties/batchRunReports>
+#[derive(Default, Debug, Serialize, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct BatchRunReportsResponse {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub reports: Option<Vec<RunReportResponse>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub kind: Option<String>,
 }

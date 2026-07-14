@@ -1,17 +1,19 @@
 [package]
 name = "google-analytics-api-ga4"
-version = "0.1.6"
+version = "0.2.0"
 edition = "2021"
 
 authors = ["uiuifree"]
-description = "Google Analytics Data Api GA4(beta)"
+description = "Async Rust client for the Google Analytics 4 (GA4) Data API v1beta: runReport, realtime reports, pivot reports, and metadata"
 license = "MIT"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-keywords = ["ga4","ga","google_analytics"]
+keywords = ["ga4", "google-analytics", "analytics", "google-api", "reporting"]
+categories = ["api-bindings", "web-programming"]
 
-readme="README.md"
+readme = "README.md"
 repository = "https://github.com/uiuifree/rust-google-analytics-api-ga4"
+documentation = "https://docs.rs/google-analytics-api-ga4"
 [dependencies]
 reqwest ={version= "0.12.9",features=["json"]}
 
