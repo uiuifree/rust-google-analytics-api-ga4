@@ -1,6 +1,6 @@
 [package]
 name = "google-analytics-api-ga4"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 
 authors = ["uiuifree"]
@@ -15,7 +15,7 @@ readme = "README.md"
 repository = "https://github.com/uiuifree/rust-google-analytics-api-ga4"
 documentation = "https://docs.rs/google-analytics-api-ga4"
 [dependencies]
-reqwest ={version= "0.12.9",features=["json"]}
+reqwest = { version = "0.13.5", features = ["json"] }
 
 # Json
 serde = { version = "1.0", features = ["derive"] }

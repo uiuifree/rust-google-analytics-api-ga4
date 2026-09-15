@@ -37,7 +37,7 @@ from a Rust backend.
 
 ```toml
 [dependencies]
-google-analytics-api-ga4 = "0.2"
+google-analytics-api-ga4 = "0.3"
 ```
 
 ## Quick start
@@ -220,6 +220,11 @@ cargo test -- --ignored
 - [Google Analytics Data API v1beta reference](https://developers.google.com/analytics/devguides/reporting/data/v1/rest)
 - [GA4 dimensions & metrics schema](https://developers.google.com/analytics/devguides/reporting/data/v1/api-schema)
 - [Realtime API schema](https://developers.google.com/analytics/devguides/reporting/data/v1/realtime-api-schema)
+
+## Breaking changes in 0.3.0
+
+- Upgraded `reqwest` from 0.12 to 0.13. The default TLS backend is now `rustls` (with `aws-lc-rs`) instead of `native-tls` / OpenSSL, so OpenSSL development headers are no longer required to build. If you depend on `reqwest` yourself with `default-features = false`, make sure you enable a TLS backend (`rustls` or `native-tls`).
+- Minimum supported Rust version is now 1.85 (required by `reqwest` 0.13).
 
 ## Breaking changes in 0.2.0
 
