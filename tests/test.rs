@@ -3,9 +3,7 @@ use google_analytics_api_ga4::types::{
     StringFilter,
 };
 use google_analytics_api_ga4::{AnalyticsDataApi, RunRealtimeReportRequest, RunReportRequest};
-use yup_oauth2::AccessToken;
-
-async fn test_token() -> AccessToken {
+async fn test_token() -> String {
     // 認証
     let secret = yup_oauth2::read_service_account_key("./test.json")
         .await
@@ -18,7 +16,7 @@ async fn test_token() -> AccessToken {
 
     let token = auth.token(scopes).await;
     assert!(token.is_ok(), "{}", token.err().unwrap().to_string());
-    token.unwrap()
+    token.unwrap().token().expect("access token").to_string()
 }
 
 #[tokio::test]
@@ -34,8 +32,7 @@ async fn test_run_realtime_report() {
         ..RunRealtimeReportRequest::default()
     };
 
-    let run_report =
-        AnalyticsDataApi::run_realtime_report(token.as_str(), property_id, request).await;
+    let run_report = AnalyticsDataApi::run_realtime_report(&token, property_id, request).await;
     assert!(run_report.is_ok(), "{}", run_report.err().unwrap());
     let run_report = run_report.unwrap();
     let metric_headers = run_report.metric_headers.unwrap_or_default();
@@ -101,7 +98,7 @@ async fn test_run_report() {
         ..RunReportRequest::default()
     };
 
-    let run_report = AnalyticsDataApi::run_report(token.as_str(), property_id, request).await;
+    let run_report = AnalyticsDataApi::run_report(&token, property_id, request).await;
     assert!(run_report.is_ok(), "{}", run_report.err().unwrap());
     let run_report = run_report.unwrap();
     let metric_headers = run_report.metric_headers.unwrap_or_default();

@@ -48,7 +48,7 @@ Any library that produces a Google OAuth2 access token works. Example with
 [yup-oauth2](https://crates.io/crates/yup-oauth2):
 
 ```rust
-async fn token() -> yup_oauth2::AccessToken {
+async fn token() -> String {
     let secret = yup_oauth2::read_service_account_key("./service_account.json")
         .await
         .expect("service_account.json");
@@ -57,7 +57,8 @@ async fn token() -> yup_oauth2::AccessToken {
         .await
         .unwrap();
     let scopes = &["https://www.googleapis.com/auth/analytics.readonly"];
-    auth.token(scopes).await.unwrap()
+    let token = auth.token(scopes).await.unwrap();
+    token.token().expect("access token").to_string()
 }
 ```
 
